@@ -169,13 +169,27 @@ $depth = 0
 def log blockDescription, &block 
   print "\t"*($depth)
   p "Beginning block ##{$depth}: " + blockDescription
+  $depth += 1
   value_returned = block.call
+  $depth -= 1
   print "\t"*($depth)
   p "Finished ##{$depth}: " + blockDescription + " - returned: " + value_returned.to_s
-  $depth += 1
 end
 log 'CALL LOG' do
   log "CALL LAST BLOCK: 'Yay!'" do
     'Yay!'
   end
+end
+
+log 'outer block' do
+  log 'some little block' do
+    log 'teeny-tiny block' do
+    'lots of love'
+    end
+  42
+  end
+  log 'yet another block' do
+    'I love Indian food!'
+  end
+  true
 end
